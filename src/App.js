@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
-import axios from 'axios';
-import NewsList from './components/NewsList';
+import NewsPage from './components/NewsPage';
+import Item from './components/Item';
+
 
 function App() {
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    const fetchData = () => {
-      axios.get('http://node-hnapi.herokuapp.com/news')
-        .then(response => {
-          console.log(response.data);
-          setItems(response.data);
-        })
-    };
-    fetchData();
-  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <NewsList items={items} />
-      </header>
+    <Router>
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/news">Home</Link>
+          </li>
+          <li>
+            <Link to="/news/">News</Link>
+          </li>
+          <li>
+            <Link to="/item/3338485">item/3338485</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Route path="/news" exact component={NewsPage} />
+      <Route path="/item/:id" exact component={Item} />
     </div>
+  </Router>
   );
 }
 
